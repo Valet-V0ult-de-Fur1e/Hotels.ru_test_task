@@ -117,15 +117,17 @@ min(f(x)) = f(71) = 5000 // 71 + 71 = 70 + 71 = 141 попыток
 <pre>Разработайте функцию, которая принимает целое число в качестве аргумента и возвращает строку, содержащую это число и слово "компьютер" в нужном склонении по падежам в зависимости от числа. Например, при вводе числа 25 функция должна возвращать "25 компьютеров", для числа 41 — "41 компьютер", а для числа 1048 — "1048 компьютеров".</pre>
 <h3>Решение</h3>
  <pre>
-  def task1(number:int)->str:
-    computer_word_end = ""
-    if number % 10 == 1 and number % 100 != 11:
-       computer_word_end = ""
-    elif 2 <= number % 10 <= 4 and not (12 <= number % 100 <= 14):
-       computer_word_end = "а"
-    else:
-       computer_word_end = "ов"
-    return f"{number} компьютер{computer_word_end}"
+  function task1(number) {
+    let computerWordEnd = "";
+    if (number % 10 === 1 && number % 100 !== 11) {
+      computerWordEnd = "";
+    } else if (2 <= number % 10 && number % 10 <= 4 && !(12 <= number % 100 && number % 100 <= 14)) {
+      computerWordEnd = "a";
+    } else {
+      computerWordEnd = "ов";
+    }
+    return `${number} компьютер${computerWordEnd}`;
+  }
 </pre>
 <h3>2 Общие делители чисел</h3>
 Задача 2. 
@@ -133,20 +135,25 @@ min(f(x)) = f(71) = 5000 // 71 + 71 = 70 + 71 = 141 попыток
 Например [42, 12, 18]. На выходе возвращает массив чисел, которые являются общими делителями для всех указанных числе. В примере это будет [2, 3, 6].</pre>
 <h3>Решение</h3>
  <pre>
-  def task2(numbers:list)->list:
-    if not numbers:
-      return []
-
-    def gcd(a, b):
-        while b:
-            a, b = b, a % b
-        return a
-    
-    scm = numbers[0]
-    for number in numbers[1:]:
-        scm = gcd(scm, number)
-
-    return [ num for num in range(2, scm + 1) if scm % num == 0]
+  function task2(numbers) {
+    if (!numbers.length) {
+      return [];
+    }
+  
+    function gcd(a, b) {
+      while (b) {
+        [a, b] = [b, a % b];
+      }
+      return a;
+    }
+  
+    let scm = numbers[0];
+    for (let i = 1; i < numbers.length; i++) {
+      scm = gcd(scm, numbers[i]);
+    }
+  
+    return Array.from({ length: scm - 1 }, (_, i) => i + 2).filter(num => scm % num === 0);
+  }
 </pre>
 <h3>3 Простые числа из диапазона</h3>
 Задача 3. 
@@ -155,27 +162,35 @@ min(f(x)) = f(71) = 5000 // 71 + 71 = 70 + 71 = 141 попыток
 На выходе программа должна выдать [11, 13 , 17, 19]</pre>
 <h3>Решение</h3>
  <pre>
-  def task3(start_number:int, end_number:int)->list:
-    def is_prime(num):
-        for div in range(2, int(num ** 0.5) + 1):
-            if num % div == 0:
-                return False
-        return True
-    return [number for number in range(start_number, end_number + 1) if number > 0 and is_prime(number)]
+  function task3(startNumber, endNumber) {
+    function isPrime(num) {
+      for (let div = 2; div <= Math.sqrt(num); div++) {
+        if (num % div === 0) {
+          return false;
+        }
+      }
+      return true;
+    }
+    return Array.from({ length: endNumber - startNumber + 1 }, (_, i) => startNumber + i).filter(number => number > 0 && isPrime(number));
+  }
 </pre>
 <h3>4 Таблица умножения</h3>
 Задача 4. 
 <pre>Написать метод, который в консоль выводит таблицу умножения. На вход метод получает число, до которого выводит таблицу умножения. В консоли должна появиться таблица.</pre>
 <h3>Решение</h3>
  <pre>
-  def task4(number):
-    print("  ", end=" ")
-    for i in range(1, number + 1):
-        print(f"{i:2}", end=" ")
-    print()
-    for i in range(1, number + 1):
-        print(f"{i:2}", end=" ")
-        for j in range(1, number + 1):
-            print(f"{(i * j):2}", end=" ")
-        print()
+  function task4(number) {
+    process.stdout.write("  ");
+    for (let i = 1; i <= number; i++) {
+        process.stdout.write(` ${i.toString().padStart(2, ' ')} `);
+    }
+    console.log();
+    for (let i = 1; i <= number; i++) {
+        process.stdout.write(`${i.toString().padStart(2, ' ')} `);
+        for (let j = 1; j <= number; j++) {
+            process.stdout.write(`${(i * j).toString().padStart(2, ' ')} `);
+        }
+        console.log();
+    }
+  }
 </pre>
